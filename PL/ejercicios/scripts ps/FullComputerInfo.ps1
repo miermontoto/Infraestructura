@@ -118,44 +118,50 @@ if (!(Test-Path $filePath)) {
 }
 
 $file = New-Item -Path $fullPath -ItemType File
-Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "------------------------------", "Identificacion del equipo ---------------------------------")
-Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Nombre equipo:", "$computerName")
-Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Dominio:", "$domain")
-Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "------------------------------", "Informacion del sistema operativo -------------------------")
-Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Edicion de Windows:", "$windowsEdition")
-Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Fecha de instalacion:", "$windowsInstallDate")
-Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Directorio de Windows:", "$windowsDirectory")
-Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Arquitectura del SO:", "$systemType")
-Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Tipo de producto:", "$productType")
-Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "------------------------------", "Listado de discos ------------------------------------------")
-Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Numero de discos:", "$($diskDrive.Count)")
+Add-Content -Path $fullPath -Value ("{0,-30} {1,-60}" -f "------------------------------", "Identificacion del equipo ---------------------------------")
+Add-Content -Path $fullPath -Value ("{0,-30} {1,-60}" -f "Nombre equipo:", "$computerName")
+Add-Content -Path $fullPath -Value ("{0,-30} {1,-60}" -f "Dominio:", "$domain")
+Add-Content -Path $fullPath -Value " "
+Add-Content -Path $fullPath -Value ("{0,-30} {1,-60}" -f "------------------------------", "Informacion del sistema operativo -------------------------")
+Add-Content -Path $fullPath -Value ("{0,-30} {1,-60}" -f "Edicion de Windows:", "$windowsEdition")
+Add-Content -Path $fullPath -Value ("{0,-30} {1,-60}" -f "Fecha de instalacion:", "$windowsInstallDate")
+Add-Content -Path $fullPath -Value ("{0,-30} {1,-60}" -f "Directorio de Windows:", "$windowsDirectory")
+Add-Content -Path $fullPath -Value ("{0,-30} {1,-60}" -f "Arquitectura del SO:", "$systemType")
+Add-Content -Path $fullPath -Value ("{0,-30} {1,-60}" -f "Tipo de producto:", "$productType")
+Add-Content -Path $fullPath -Value " "
+Add-Content -Path $fullPath -Value ("{0,-30} {1,-60}" -f "------------------------------", "Listado de discos ------------------------------------------")
+Add-Content -Path $fullPath -Value ("{0,-30} {1,-60}" -f "Numero de discos:", "$($diskDrive.Count)")
+Add-Content -Path $fullPath -Value " "
 
 if ($diskDrive.Count -is [array] -or $diskDrive.Count -gt 1) {
     for ($i = 0; $i -lt $diskDrive.Count; $i++) {
         $disk = $diskDrive[$i]
-        Add-Content -Path $fullPath -Value "============ Disco $i ========="
-        Add-Content -Path $fullPath -Value "Nombre:                $($disk.Name)"
-        Add-Content -Path $fullPath -Value "Modelo:                $($disk.Model)"
-        Add-Content -Path $fullPath -Value "Tamano (en GB):        $($disk.Size / 1GB)"
+        Add-Content -Path $fullPath -Value ("{0,-20} {1,-50}" -f "============", "Disco $i =========")
+        Add-Content -Path $fullPath -Value ("{0,-20} {1,-50}" -f "Nombre:", "$($disk.Name)")
+        Add-Content -Path $fullPath -Value ("{0,-20} {1,-50}" -f "Modelo:", "$($disk.Model)")
+        Add-Content -Path $fullPath -Value ("{0,-20} {1,-50}" -f "Tamano (en GB):", "$($disk.Size / 1GB)")
+        Add-Content -Path $fullPath -Value " "
     }
 } else {
-    Add-Content -Path $fullPath -Value "============ Disco 0 ========="
-    Add-Content -Path $fullPath -Value "Nombre:                $($diskDrive.Name)"
-    Add-Content -Path $fullPath -Value "Modelo:                $($diskDrive.Model)"
-    Add-Content -Path $fullPath -Value "Tamano (en GB):        $($diskDrive.Size / 1GB)"
+    Add-Content -Path $fullPath -Value ("{0,-20} {1,-50}" -f "============", "Disco 0 =========")
+    Add-Content -Path $fullPath -Value ("{0,-20} {1,-50}" -f "Nombre:", "$($diskDrive.Name)")
+    Add-Content -Path $fullPath -Value ("{0,-20} {1,-50}" -f "Modelo:", "$($diskDrive.Model)")
+    Add-Content -Path $fullPath -Value ("{0,-20} {1,-50}" -f "Tamano (en GB):", "$($diskDrive.Size / 1GB)")
+    Add-Content -Path $fullPath -Value " "
 }
 
-Add-Content -Path $fullPath -Value "----------------------------- Listado de volumenes --------------------------------------"
-Add-Content -Path $fullPath -Value "Numero de volumenes:       $($volume.Count)"
+Add-Content -Path $fullPath -Value ("{0,-30} {1,-60}" -f "-----------------------------",  "Listado de volumenes --------------------------------------")
+Add-Content -Path $fullPath -Value ("{0,-30} {1,-60}" -f "Numero de volumenes:", "$($volume.Count)")
+Add-Content -Path $fullPath -Value " "
 
 if ($volume.Count -is [array] -or $volume.Count -gt 1) {
     for ($i = 0; $i -lt $volume.Count; $i++) {
         $vol = $volume[$i]
-        Add-Content -Path $fullPath -Value "============ Volumen $i ========="
-        Add-Content -Path $fullPath -Value "Letra asignada:        $($vol.DeviceID)"
-        Add-Content -Path $fullPath -Value "Capacidad (en MB):     $($vol.Capacity / 1MB)"
-        Add-Content -Path $fullPath -Value "Espacio libre (en MB): $($vol.FreeSpace / 1MB)"
-        Add-Content -Path $fullPath -Value "Tipo de drive:         $($vol.DriveType)"
-        Add-Content -Path $fullPath -Value "Sistema de ficheros:   $($vol.FileSystem)"
+        Add-Content -Path $fullPath -Value ("{0,-25} {1,-40}" -f "=============  Volumen $i", "===============================")
+        Add-Content -Path $fullPath -Value ("{0,-25} {1,-40}" -f "Letra asignada:", "$($vol.DeviceID)")
+        Add-Content -Path $fullPath -Value ("{0,-25} {1,-40}" -f "Capacidad (en MB):", "$($vol.Capacity / 1MB)")
+        Add-Content -Path $fullPath -Value ("{0,-25} {1,-40}" -f "Espacio libre (en MB):", "$($vol.FreeSpace / 1MB)")
+        Add-Content -Path $fullPath -Value ("{0,-25} {1,-40}" -f "Tipo de drive:", "$($vol.DriveType)")
+        Add-Content -Path $fullPath -Value ("{0,-25} {1,-40}" -f "Sistema de ficheros:", "$($vol.FileSystem)")
     }
 }
