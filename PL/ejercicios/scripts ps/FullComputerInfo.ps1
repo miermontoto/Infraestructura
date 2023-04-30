@@ -118,17 +118,17 @@ if (!(Test-Path $filePath)) {
 }
 
 $file = New-Item -Path $fullPath -ItemType File
-Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "----------------------------- ", "Identificacion del equipo ---------------------------------")
-Add-Content -Path $fullPath -Value "Nombre equipo:         $computerName"
-Add-Content -Path $fullPath -Value "Dominio:               $domain"
-Add-Content -Path $fullPath -Value "----------------------------- Informacion del sistema operativo -------------------------"
-Add-Content -Path $fullPath -Value "Edicion de Windows:    $windowsEdition"
-Add-Content -Path $fullPath -Value "Fecha de instalacion:  $windowsInstallDate"
-Add-Content -Path $fullPath -Value "Directorio de Windows: $windowsDirectory"
-Add-Content -Path $fullPath -Value "Arquitectura del SO:   $systemType"
-Add-Content -Path $fullPath -Value "Tipo de producto:      $productType"
-Add-Content -Path $fullPath -Value "----------------------------- Listado de discos ------------------------------------------"
-Add-Content -Path $fullPath -Value "Numero de discos:          $($diskDrive.Count)"
+Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "------------------------------", "Identificacion del equipo ---------------------------------")
+Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Nombre equipo:", "$computerName")
+Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Dominio:", "$domain")
+Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "------------------------------", "Informacion del sistema operativo -------------------------")
+Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Edicion de Windows:", "$windowsEdition")
+Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Fecha de instalacion:", "$windowsInstallDate")
+Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Directorio de Windows:", "$windowsDirectory")
+Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Arquitectura del SO:", "$systemType")
+Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Tipo de producto:", "$productType")
+Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "------------------------------", "Listado de discos ------------------------------------------")
+Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "Numero de discos:", "$($diskDrive.Count)")
 
 if ($diskDrive.Count -is [array] -or $diskDrive.Count -gt 1) {
     for ($i = 0; $i -lt $diskDrive.Count; $i++) {
