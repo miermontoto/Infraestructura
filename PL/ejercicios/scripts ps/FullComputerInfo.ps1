@@ -69,17 +69,8 @@
 # Sistema de ficheros:   XXX
 
 
-if (Test-Path $fullPath) {
-    Write-Host "El fichero ya existe"
-    exit
-}
-if (!(Test-Path $filePath)) {
-    Write-Host "El directorio no existe"
-    exit
-}
-
 $cim = Get-CimInstance -ClassName Win32_ComputerSystem -ComputerName .
-if ($cim -eq $null) {
+if ($null -eq $cim) {
     Write-Host "Error de conexion"
     exit
 }
@@ -116,6 +107,16 @@ $fileName = $computerName + "_Info.txt"
 $filePath = "C:\Temp"
 $fullPath = $filePath + "\" + $fileName
 
+if (Test-Path $fullPath) {
+    Write-Host "El fichero ya existe"
+    exit
+}
+
+if (!(Test-Path $filePath)) {
+    Write-Host "El directorio no existe"
+    exit
+}
+
 $file = New-Item -Path $fullPath -ItemType File
 Add-Content -Path $fullPath -Value "----------------------------- Identificacion del equipo ---------------------------------"
 Add-Content -Path $fullPath -Value "Nombre equipo:         $computerName"
@@ -127,7 +128,8 @@ Add-Content -Path $fullPath -Value "Directorio de Windows: $windowsDirectory"
 Add-Content -Path $fullPath -Value "Arquitectura del SO:   $systemType"
 Add-Content -Path $fullPath -Value "Tipo de producto:      $productType"
 Add-Content -Path $fullPath -Value "----------------------------- Listado de discos ------------------------------------------"
-Add-Content -Path $fullPath -Value "N� de discos:          $($diskDrive.Count)"
+Add-Content -Path $fullPath -Value "Numero de discos:          $($diskDrive.Count)"
+
 if ($diskDrive.Count -is [array] -or $diskDrive.Count -gt 1) {
     for ($i = 0; $i -lt $diskDrive.Count; $i++) {
         $disk = $diskDrive[$i]
@@ -140,11 +142,12 @@ if ($diskDrive.Count -is [array] -or $diskDrive.Count -gt 1) {
     Add-Content -Path $fullPath -Value "============ Disco 0 ========="
     Add-Content -Path $fullPath -Value "Nombre:                $($diskDrive.Name)"
     Add-Content -Path $fullPath -Value "Modelo:                $($diskDrive.Model)"
-    Add-Content -Path $fullPath -Value "Tama�o (en GB):        $($diskDrive.Size / 1GB)"
+    Add-Content -Path $fullPath -Value "Tamano (en GB):        $($diskDrive.Size / 1GB)"
 }
 
 Add-Content -Path $fullPath -Value "----------------------------- Listado de volumenes --------------------------------------"
-Add-Content -Path $fullPath -Value "N� de volumenes:       $($volume.Count)"
+Add-Content -Path $fullPath -Value "Numero de volumenes:       $($volume.Count)"
+
 if ($volume.Count -is [array] -or $volume.Count -gt 1) {
     for ($i = 0; $i -lt $volume.Count; $i++) {
         $vol = $volume[$i]
