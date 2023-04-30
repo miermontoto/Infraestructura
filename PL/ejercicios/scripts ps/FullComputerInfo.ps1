@@ -68,19 +68,31 @@
 # Tipo de drive:         XXX [Expresado en cadena de caracteres, segÃºn ayuda]
 # Sistema de ficheros:   XXX
 
+
+if (Test-Path $fullPath) {
+    Write-Host "El fichero ya existe"
+    exit
+}
+if (!(Test-Path $filePath)) {
+    Write-Host "El directorio no existe"
+    exit
+}
+
 $cim = Get-CimInstance -ClassName Win32_ComputerSystem -ComputerName .
-# Comprobar error de conexiÃ³n
 if ($cim -eq $null) {
     Write-Host "Error de conexion"
     exit
 }
 
 $computerName = $cim.Name
+
 Write-Host $computerName
+
 $domain = $cim.Domain
 $windowsEdition = $cim.Caption
 $windowsInstallDate = $cim.InstallDate
 $windowsDirectory = $cim.WindowsDirectory
+
 $systemType = $cim.SystemType
 $systemType = switch ($systemType) {
     1 { "x86" }
@@ -88,6 +100,7 @@ $systemType = switch ($systemType) {
     3 { "Itanium-based" }
     default { "Unknown" }
 }
+
 $productType = $cim.ProductType
 $productType = switch ($productType) {
     1 { "Workstation" }
@@ -95,24 +108,13 @@ $productType = switch ($productType) {
     3 { "Server" }
     default { "Unknown" }
 }
+
 $diskDrive = Get-CimInstance -ClassName Win32_DiskDrive -ComputerName .
-$diskDriveCount = $diskDrive.Count
 $volume = Get-CimInstance -ClassName Win32_Volume -ComputerName .
-$volumeCount = $volume.Count
 
 $fileName = $computerName + "_Info.txt"
 $filePath = "C:\Temp"
 $fullPath = $filePath + "\" + $fileName
-
-if (Test-Path $fullPath) {
-    Write-Host "El fichero ya existe"
-    exit
-}
-
-if (!(Test-Path $filePath)) {
-    Write-Host "El directorio no existe"
-    exit
-}
 
 $file = New-Item -Path $fullPath -ItemType File
 Add-Content -Path $fullPath -Value "----------------------------- Identificacion del equipo ---------------------------------"
@@ -125,26 +127,27 @@ Add-Content -Path $fullPath -Value "Directorio de Windows: $windowsDirectory"
 Add-Content -Path $fullPath -Value "Arquitectura del SO:   $systemType"
 Add-Content -Path $fullPath -Value "Tipo de producto:      $productType"
 Add-Content -Path $fullPath -Value "----------------------------- Listado de discos ------------------------------------------"
-Add-Content -Path $fullPath -Value "Nï¿½ de discos:          $diskDriveCount"
-if ($diskDrive -is [array]) {
+Add-Content -Path $fullPath -Value "Nº de discos:          $($diskDrive.Count)"
+if ($diskDrive.Count -is [array] -or $diskDrive.Count -gt 1) {
     for ($i = 0; $i -lt $diskDrive.Count; $i++) {
         $disk = $diskDrive[$i]
         Add-Content -Path $fullPath -Value "============ Disco $i ========="
         Add-Content -Path $fullPath -Value "Nombre:                $($disk.Name)"
         Add-Content -Path $fullPath -Value "Modelo:                $($disk.Model)"
-        Add-Content -Path $fullPath -Value "Tamaï¿½o (en GB):        $($disk.Size / 1GB)"
+        Add-Content -Path $fullPath -Value "Tamaño (en GB):        $($disk.Size / 1GB)"
     }
 } else {
     Add-Content -Path $fullPath -Value "============ Disco 0 ========="
     Add-Content -Path $fullPath -Value "Nombre:                $($diskDrive.Name)"
     Add-Content -Path $fullPath -Value "Modelo:                $($diskDrive.Model)"
-    Add-Content -Path $fullPath -Value "Tamaï¿½o (en GB):        $($diskDrive.Size / 1GB)"
+    Add-Content -Path $fullPath -Value "Tamaño (en GB):        $($diskDrive.Size / 1GB)"
 }
+
 Add-Content -Path $fullPath -Value "----------------------------- Listado de volumenes --------------------------------------"
-Add-Content -Path $fullPath -Value "Nï¿½ de volumenes:       $volumeCount"
-if ($volumeCount -is [array]) {
-    for ($i = 0; $i -lt $volumeCount; $i++) {
-        $vol = $volumeCount[$i]
+Add-Content -Path $fullPath -Value "Nº de volumenes:       $($volume.Count)"
+if ($volume.Count -is [array] -or $volume.Count -gt 1) {
+    for ($i = 0; $i -lt $volume.Count; $i++) {
+        $vol = $volume[$i]
         Add-Content -Path $fullPath -Value "============ Volumen $i ========="
         Add-Content -Path $fullPath -Value "Letra asignada:        $($vol.DeviceID)"
         Add-Content -Path $fullPath -Value "Capacidad (en MB):     $($vol.Capacity / 1MB)"
@@ -152,11 +155,4 @@ if ($volumeCount -is [array]) {
         Add-Content -Path $fullPath -Value "Tipo de drive:         $($vol.DriveType)"
         Add-Content -Path $fullPath -Value "Sistema de ficheros:   $($vol.FileSystem)"
     }
-} else {
-    Add-Content -Path $fullPath -Value "============ Volumen 0 ========="
-    Add-Content -Path $fullPath -Value "Letra asignada:        $($volume.DeviceID)"
-    Add-Content -Path $fullPath -Value "Capacidad (en MB):     $($volume.Capacity / 1MB)"
-    Add-Content -Path $fullPath -Value "Espacio libre (en MB): $($volume.FreeSpace / 1MB)"
-    Add-Content -Path $fullPath -Value "Tipo de drive:         $($volume.DriveType)"
-    Add-Content -Path $fullPath -Value "Sistema de ficheros:   $($volume.FileSystem)"
 }
