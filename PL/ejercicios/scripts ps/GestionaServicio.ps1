@@ -21,7 +21,7 @@
 
 
 # Solicitar el nombre del servicio a gestionar
-$serviceName = Read-Host "Introduce el nombre del servicio:"
+$serviceName = Read-Host "Introduce el nombre del servicio"
 
 # Obtener instancia del servicio
 $service = Get-CimInstance -Query "SELECT * FROM Win32_Service WHERE name = '$serviceName'" -NameSpace root/cimv2
@@ -69,7 +69,7 @@ switch ($option) {
         if ($ret1.ReturnValue -eq 0) {
             Write-Host "El servicio '$serviceName' se ha arrancado con éxito"
         } else {
-            Write-Host "Error al arrancar el serivcio '$serviceName'. Error retornado: '$ret1'"
+            Write-Host "Error al arrancar el serivcio '$serviceName'. Error retornado: $($ret1.ReturnValue)"
         }
     }
     5 {
@@ -79,7 +79,7 @@ switch ($option) {
         if ($ret2.ReturnValue -eq 0) {
             Write-Host "El servicio '$serviceName' se ha detenido con exito"
         } else {
-            Write-Host "Error al detener el servicio '$serviceName'. Error retornado: '$ret2'"
+            Write-Host "Error al detener el servicio '$serviceName'. Error retornado: $($ret2.ReturnValue)"
         }
     }
 }
