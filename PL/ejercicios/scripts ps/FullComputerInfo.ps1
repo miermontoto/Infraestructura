@@ -118,7 +118,7 @@ if (!(Test-Path $filePath)) {
 }
 
 $file = New-Item -Path $fullPath -ItemType File
-Add-Content -Path $fullPath -Value "----------------------------- Identificacion del equipo ---------------------------------"
+Add-Content -Path $fullPath -Value ("{0,30} {1,60}" -f "----------------------------- ", "Identificacion del equipo ---------------------------------")
 Add-Content -Path $fullPath -Value "Nombre equipo:         $computerName"
 Add-Content -Path $fullPath -Value "Dominio:               $domain"
 Add-Content -Path $fullPath -Value "----------------------------- Informacion del sistema operativo -------------------------"
