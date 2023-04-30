@@ -33,26 +33,26 @@ if ($null -eq $service) {
 }
 
 # Menú de opciones
-Write-Host "1) Obtener descripción del servicio"
+Write-Host "1) Obtener descripcion del servicio"
 Write-Host "2) Indicar modo de arranque"
 Write-Host "3) Indicar el estado del servicio"
 Write-Host "4) Arrancar el servicio"
 Write-Host "5) Parar el servicio"
 
 # Solicitar opción al usuario
-$option = Read-Host "Introduce una opción del 1 al 5"
+$option = Read-Host "Introduce una opcion del 1 al 5"
 
 # Comprobar que la opción es válida
-if ($service -lt 1 -or $service -gt 5) {
-    Write-Host "La opción introducida no es válida."
-    Write-Host "Debe ser un número del 1 al 5"
+if ($option -lt 1 -or $option -gt 5) {
+    Write-Host "La opcion introducida no es válida."
+    Write-Host "Debe ser un numero del 1 al 5"
     exit
 }
 
 switch ($option) {
     1 {
         # Mostrar descripción del servicio
-        Write-Host "Descripción del servicio: $($service.Descrption)"
+        Write-Host "Descripcion del servicio: $($service.Description)"
     }
     2 {
         # Indicar modo de arranque del servicio
@@ -77,7 +77,7 @@ switch ($option) {
         $ret2 = Invoke-CimMethod -InputObject $service -MethodName StopService
         # Comprobar si se ha parado con éxito
         if ($ret2.ReturnValue -eq 0) {
-            Write-Host "El servicio '$serviceName' se ha detenido con éxito"
+            Write-Host "El servicio '$serviceName' se ha detenido con exito"
         } else {
             Write-Host "Error al detener el servicio '$serviceName'. Error retornado: '$ret2'"
         }

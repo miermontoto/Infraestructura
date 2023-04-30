@@ -127,24 +127,24 @@ Add-Content -Path $fullPath -Value "Directorio de Windows: $windowsDirectory"
 Add-Content -Path $fullPath -Value "Arquitectura del SO:   $systemType"
 Add-Content -Path $fullPath -Value "Tipo de producto:      $productType"
 Add-Content -Path $fullPath -Value "----------------------------- Listado de discos ------------------------------------------"
-Add-Content -Path $fullPath -Value "Nº de discos:          $($diskDrive.Count)"
+Add-Content -Path $fullPath -Value "Nï¿½ de discos:          $($diskDrive.Count)"
 if ($diskDrive.Count -is [array] -or $diskDrive.Count -gt 1) {
     for ($i = 0; $i -lt $diskDrive.Count; $i++) {
         $disk = $diskDrive[$i]
         Add-Content -Path $fullPath -Value "============ Disco $i ========="
         Add-Content -Path $fullPath -Value "Nombre:                $($disk.Name)"
         Add-Content -Path $fullPath -Value "Modelo:                $($disk.Model)"
-        Add-Content -Path $fullPath -Value "Tamaño (en GB):        $($disk.Size / 1GB)"
+        Add-Content -Path $fullPath -Value "Tamano (en GB):        $($disk.Size / 1GB)"
     }
 } else {
     Add-Content -Path $fullPath -Value "============ Disco 0 ========="
     Add-Content -Path $fullPath -Value "Nombre:                $($diskDrive.Name)"
     Add-Content -Path $fullPath -Value "Modelo:                $($diskDrive.Model)"
-    Add-Content -Path $fullPath -Value "Tamaño (en GB):        $($diskDrive.Size / 1GB)"
+    Add-Content -Path $fullPath -Value "Tamaï¿½o (en GB):        $($diskDrive.Size / 1GB)"
 }
 
 Add-Content -Path $fullPath -Value "----------------------------- Listado de volumenes --------------------------------------"
-Add-Content -Path $fullPath -Value "Nº de volumenes:       $($volume.Count)"
+Add-Content -Path $fullPath -Value "Nï¿½ de volumenes:       $($volume.Count)"
 if ($volume.Count -is [array] -or $volume.Count -gt 1) {
     for ($i = 0; $i -lt $volume.Count; $i++) {
         $vol = $volume[$i]
