@@ -39,7 +39,7 @@ New-Item -Path $file -ItemType File -Force
 Add-Content -Path $file -Value "Procesos entre 0 y 100 handles" -Encoding UTF8
 
 # Escribir en el fichero una cabecera apropiada para la tabla de procesos
-$Cabecera = "Nº de handles" + " " + "Nombre del proceso"
+$Cabecera = "Num. de handles" + " " + "Nombre del proceso"
 Add-Content -Path $file -Value $Cabecera -Encoding UTF8
 
 # Escribir en el fichero informativo los procesos cuyo Nº de handles se encuentre
@@ -54,7 +54,8 @@ foreach ($Proceso in $Procesos) {
         Add-Content -Path $file -Value $Linea -Encoding UTF8
     }
 }
-
+# Línea en blanco en fichero
+Add-Content -Path $file -Value " "
 
 
 ######## Procesos entre 101 y 1000 ########
@@ -63,7 +64,7 @@ foreach ($Proceso in $Procesos) {
 Add-Content -Path $file -Value "Procesos entre 101 y 1000 handles" -Encoding UTF8
 
 # Escribir en el fichero una cabecera apropiada para la tabla de procesos
-$Cabecera = "Nº de handles" + " " + "Nombre del proceso"
+$Cabecera = "Num. de handles" + " " + "Nombre del proceso"
 Add-Content -Path $file -Value $Cabecera -Encoding UTF8
 
 # Escribir en el fichero informativo los procesos cuyo Nº de handles se encuentre
@@ -77,16 +78,18 @@ foreach ($Proceso in $Procesos) {
         Add-Content -Path $file -Value $Linea -Encoding UTF8
     }
 }
+# Línea en blanco en fichero
+Add-Content -Path $file -Value " "
 
 
 
 ######## Procesos con más de 1000 handles ########
 
 # Escribir en el fichero el intervalo de procesos
-Add-Content -Path $file -Value "Procesos con más de 1000 handles" -Encoding UTF8
+Add-Content -Path $file -Value "Procesos con mas de 1000 handles" -Encoding UTF8
 
 # Escribir en el fichero una cabecera apropiada para la tabla de procesos
-$Cabecera = "Nº de handles" + " " + "Nombre del proceso"
+$Cabecera = "Num de handles" + " " + "Nombre del proceso"
 Add-Content -Path $file -Value $Cabecera -Encoding UTF8
 
 # Escribir en el fichero informativo los procesos cuyo Nº de handles sea mayor de 1000
@@ -96,6 +99,8 @@ foreach ($Proceso in $Procesos) {
         Add-Content -Path $file -Value $Linea -Encoding UTF8
     }
 }
+# Línea en blanco en fichero
+Add-Content -Path $file -Value " "
 
 # Generación de una línea en blanco en la consola
 Write-Host
