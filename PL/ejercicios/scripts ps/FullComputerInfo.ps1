@@ -81,7 +81,7 @@ Write-Host $computerName
 
 $domain = $cim.Domain
 $windowsEdition = $cim.Caption
-$windowsInstallDate = $cim.InstallDate
+$windowsInstallDate = $cim.InstallDate # InstallDate es de tipo datetime
 $windowsDirectory = $cim.WindowsDirectory
 
 $systemType = $cim.SystemType
